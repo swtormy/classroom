@@ -15,6 +15,7 @@ import Number from './components/Number';
 import Header from './components/Header';
 import Application from './pages/Application';
 import Task from './pages/Task';
+import Sorter from './pages/Sorter';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(true)
@@ -25,6 +26,7 @@ function App() {
         
         <Routes>
 
+          <Route path="/sorter" element={<Sorter />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/tasks/1" element={<Task />} />
           <Route path="/application" element={<Application />} />
