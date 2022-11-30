@@ -2,38 +2,62 @@ import React, { useState } from 'react'
 import { Reorder } from 'framer-motion'
 
 const Sorter = () => {
-    const [elements, setElements] = useState([
-        'name',
-        'fvd',
-        'cxzc',
-        'zxc',
-        'dsv',
-        'sdvzx'
-    ])
+    const [elements, setElements] = useState([])
+
+    const splitText = (e) => {
+        const segmenter = new Intl.Segmenter(
+            'en', { granularity: 'sentence' }
+        )
+
+
+
+
+        const textArray = Array.from(
+            segmenter.segment(e.target.value),
+            s => s.segment
+        )
+
+        
+        
+        setElements(textArray)
+
+        // var arrWords = []
+        // e.target.value.split(' ').map((word => {
+        //     if(word!=''){
+        //         console.log(word);
+        //     }
+        // }))
+    }
 
     return (
-        <div className='container mx-auto px-4 flex flex-col min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8 text-sm'>
-            < div className='text-2xl font-bold pb-2' >
-                <div className="w-full max-w-sm p-4 bg-white border rounded-lg shadow-md sm:p-6 dark:bg-gray-800 dark:border-gray-700">
-                    <h5 className="mb-3 text-base font-semibold text-gray-900 md:text-xl dark:text-white">
-                        Connect wallet
-                    </h5>
-                    <p className="text-sm font-normal text-gray-500 dark:text-gray-400">Connect with one of our available wallet providers or create a new one.</p>
+        <>
+            
+            <div className='container mx-auto px-4 flex flex-col min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8 text-sm'>
+                < div className='text-2xl font-bold pb-2' >
+                    <div className="w-full max-w-sm p-4 bg-white border rounded-lg shadow-md sm:p-6 dark:bg-gray-800 dark:border-gray-700">
+                        <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your sentences</label>
+                        <textarea  onChange={splitText}  id="message" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
+                        <br/>
+                        <h5 className="mb-3 text-base font-semibold text-gray-900 md:text-xl dark:text-white">
+                            Connect wallet
+                        </h5>
+                        <p className="text-sm font-normal text-gray-500 dark:text-gray-400">Connect with one of our available wallet providers or create a new one.</p>
 
 
-                    <Reorder.Group as='ol' axys='y' values={elements} onReorder={setElements}>
-                        {elements.map((element) => (
-                            <Reorder.Item key={element} value={element}>
+                        <Reorder.Group as='ul' axys='y' values={elements} onReorder={setElements}>
+                            {elements.map((element) => (
+                                <Reorder.Item key={element} value={element}>
 
 
 
-                                   
-                                    <span className="flex-1 ml-3 whitespace-nowrap ">{element}</span>
+                                    <button className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+                                        <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">{element}</span>
+                                    </button>
 
 
-                            </Reorder.Item>
-                        ))}
-                        {/* <li>
+                                </Reorder.Item>
+                            ))}
+                            {/* <li>
                                 <a href="#" className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
                                     <svg aria-hidden="true" className="h-5" viewBox="0 0 292 292" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M145.7 291.66C226.146 291.66 291.36 226.446 291.36 146C291.36 65.5541 226.146 0.339844 145.7 0.339844C65.2542 0.339844 0.0400391 65.5541 0.0400391 146C0.0400391 226.446 65.2542 291.66 145.7 291.66Z" fill="#3259A5" /><path d="M195.94 155.5C191.49 179.08 170.8 196.91 145.93 196.91C117.81 196.91 95.0204 174.12 95.0204 146C95.0204 117.88 117.81 95.0897 145.93 95.0897C170.8 95.0897 191.49 112.93 195.94 136.5H247.31C242.52 84.7197 198.96 44.1797 145.93 44.1797C89.6904 44.1797 44.1104 89.7697 44.1104 146C44.1104 202.24 89.7004 247.82 145.93 247.82C198.96 247.82 242.52 207.28 247.31 155.5H195.94Z" fill="white" /></svg>
                                     <span className="flex-1 ml-3 whitespace-nowrap">Coinbase Wallet</span>
@@ -57,16 +81,17 @@ const Sorter = () => {
                                     <span className="flex-1 ml-3 whitespace-nowrap">Fortmatic</span>
                                 </a>
                             </li> */}
-                    </Reorder.Group>
+                        </Reorder.Group>
 
-                    <div>
-                        <a href="#" className="inline-flex items-center text-xs font-normal text-gray-500 hover:underline dark:text-gray-400">
-                            <svg className="w-3 h-3 mr-2" aria-hidden="true" focusable="false" data-prefix="far" data-icon="question-circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm107.244-255.2c0 67.052-72.421 68.084-72.421 92.863V300c0 6.627-5.373 12-12 12h-45.647c-6.627 0-12-5.373-12-12v-8.659c0-35.745 27.1-50.034 47.579-61.516 17.561-9.845 28.324-16.541 28.324-29.579 0-17.246-21.999-28.693-39.784-28.693-23.189 0-33.894 10.977-48.942 29.969-4.057 5.12-11.46 6.071-16.666 2.124l-27.824-21.098c-5.107-3.872-6.251-11.066-2.644-16.363C184.846 131.491 214.94 112 261.794 112c49.071 0 101.45 38.304 101.45 88.8zM298 368c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42z"></path></svg>
-                            Why do I need to connect with my wallet?</a>
+                        <div>
+                            <a href="#" className="inline-flex items-center text-xs font-normal text-gray-500 hover:underline dark:text-gray-400">
+                                <svg className="w-3 h-3 mr-2" aria-hidden="true" focusable="false" data-prefix="far" data-icon="question-circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm107.244-255.2c0 67.052-72.421 68.084-72.421 92.863V300c0 6.627-5.373 12-12 12h-45.647c-6.627 0-12-5.373-12-12v-8.659c0-35.745 27.1-50.034 47.579-61.516 17.561-9.845 28.324-16.541 28.324-29.579 0-17.246-21.999-28.693-39.784-28.693-23.189 0-33.894 10.977-48.942 29.969-4.057 5.12-11.46 6.071-16.666 2.124l-27.824-21.098c-5.107-3.872-6.251-11.066-2.644-16.363C184.846 131.491 214.94 112 261.794 112c49.071 0 101.45 38.304 101.45 88.8zM298 368c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42z"></path></svg>
+                                Why do I need to connect with my wallet?</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 

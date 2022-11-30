@@ -15,9 +15,19 @@ const Task = () => {
         var result = []
         var row = []
 
-        text.split(' ').map((word, index) => {
-            // console.log(word, word.search(','));
-            if ((index % 6) === 0) {
+        
+        const segmenter = new Intl.Segmenter(
+            'en', { granularity: 'word' }
+        )
+
+        const textArray = Array.from(
+            segmenter.segment(text),
+            s => s.segment
+        )
+        
+        
+        textArray.map((word, index) => {
+            if ((index % 14) === 0) {
                 row.push(word)
                 result.push(row)
                 row = []
@@ -25,6 +35,16 @@ const Task = () => {
                 row.push(word)
             }
         })
+        // text.split(' ').map((word, index) => {
+        //     // console.log(word, word.search(','));
+        //     if ((index % 6) === 0) {
+        //         row.push(word)
+        //         result.push(row)
+        //         row = []
+        //     } else {
+        //         row.push(word)
+        //     }
+        // })
 
 
         return result
@@ -53,7 +73,7 @@ const Task = () => {
         <div className='container mx-auto px-4 flex flex-col min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8 text-sm'>
             < div className='text-2xl font-bold pb-2' >
 
-                <div className="w-full max-w-sm p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                <div className="w-full max-w-xl p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
                     {/* <h5 className="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Task</h5> */}
                     <div className="flex items-baseline text-gray-900 dark:text-white">
                         {/* <span className="text-3xl font-semibold"></span> */}
