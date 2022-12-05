@@ -16,6 +16,9 @@ import Header from './components/Header';
 import Application from './pages/Application';
 import Task from './pages/Task';
 import Sorter from './pages/Sorter';
+import Lines from './pages/Lines';
+import Rearrange from './pages/Rearrange';
+import NewReorder from './pages/NewReorder';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(true)
@@ -31,6 +34,9 @@ function App() {
           <Route path="/tasks/1" element={<Task />} />
           <Route path="/application" element={<Application />} />
           <Route path="/number" element={<Number />} />
+          <Route path="/lines" element={<Lines />} />
+          <Route path="/rearrange" element={<Rearrange />} />
+          <Route path="/newreorder" element={<NewReorder />} />
           <Route path="/" element={loggedIn ? <Navigate to="/application" /> : <Login />} />
         </Routes>
       </div>
