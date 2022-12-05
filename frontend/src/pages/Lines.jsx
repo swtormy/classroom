@@ -16,6 +16,8 @@ const Lines = () => {
     let movingElement
     let isDraggingStarted = false
     let placeholder
+    let elementBelow
+    let currentDroppable = null
     const initialMovingElementPageXY = {
         x: 0,
         y: 0,
@@ -39,6 +41,38 @@ const Lines = () => {
         element.style.top = pageY - shifts.shiftY + 'px'
 
     }
+    const isAbove = (nodeA, nodeB) => {
+        // Returns the bounding rectangle of nodes
+        const rectA = nodeA.getBoundingClientRect();
+        const rectB = nodeB.getBoundingClientRect();
+
+        return rectA.top + rectA.height / 2 < rectB.top + rectB.height / 2;
+    }
+    const getElementCoordinates = (node, searchCoordsBy) => {
+        // Returns left and top coordinates of node
+        const rect = node.getBoundingClientRect();
+        return {
+            top:
+                searchCoordsBy == "by-center"
+                    ? rect.top + rect.height / 2
+                    : rect.top + 10,
+            left: rect.left + rect.width / 2,
+        };
+    };
+    const getElementBelow = (movingElement, searchCoordsBy) => {
+        // Get element below movingElement now
+        const movingElementCenter = getElementCoordinates(
+            movingElement,
+            searchCoordsBy
+        );
+        movingElement.hidden = true;
+        let elementBelow = document.elementFromPoint(
+            movingElementCenter.left,
+            movingElementCenter.top
+        );
+        movingElement.hidden = false;
+        return elementBelow;
+    };
 
     const createPlaceholder = () => {
         // console.log("I'm created!");
@@ -64,6 +98,9 @@ const Lines = () => {
             });
         }
         moveAt(movingElement, event.pageX, event.pageY);
+        
+        
+        
     }
     const setMovingElement = (e) => {
         movingElement = e.target
@@ -78,7 +115,7 @@ const Lines = () => {
         initialMovingElementPageXY.set(movingElement);
         document.addEventListener("mousemove", onMouseMove);
         movingElement.onmouseup = dropHandler;
-
+        
 
         // e.target.classList.add('hold')
         // setTimeout(() => e.target.classList.add('invisible'))
@@ -107,9 +144,28 @@ const Lines = () => {
     }
     function dragOverHandler(e, card) {
         // e.preventDefault()
-        
+
     }
     function dropHandler(e, card) {
+        elementBelow = getElementBelow(movingElement, "by-center");
+        var elementOne
+        var elementTwo
+        var newCardList = []
+        cardList.map(el => {
+            if(el.text===e.path[0].innerHTML){
+                elementOne = el
+            }
+            if(el.text===elementBelow.innerHTML){
+                elementTwo = el
+            }
+        })
+        cardList.map(el => {
+            if(el.id!==elementOne.id && el.id!==elementTwo.id){
+                newCardList.push(el)
+            }
+        })
+        setCardList(newCardList);
+        
         // e.preventDefault()
         // if (!isDraggingStarted) {
         //     document.removeEventListener("mousemove", onMouseMove);
